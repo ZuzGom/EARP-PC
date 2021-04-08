@@ -29,10 +29,24 @@ except Exception as ex:
     #push_alert(0,0,err)
 
 Builder.load_file('test.kv')
+
+
+class Err(Label):
+    pass
+class Maly(image):
+    pass
+'''
+def manag(scr):
+    scr.add_widget(Ule(name="ule"))
+    scr.add_widget(Alert(name="alert"))
+    scr.add_widget(Notif(name="arch"))
+    scr.add_widget(Sett(name="set"))
+
+
 def rysuj(func):
     dane = func
     pltem1=[]
-    pltem2=[]
+    pltem2=[]y
     plwg=[]
     plhum=[]
     #print(dane)
@@ -55,20 +69,6 @@ def rysuj(func):
 
     plt.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc='lower left',
            ncol=4, mode="expand", borderaxespad=0,fontsize='xx-large')
-
-class Err(Label):
-    pass
-class Maly(image):
-    pass
-'''
-def manag(scr):
-    scr.add_widget(Ule(name="ule"))
-    scr.add_widget(Alert(name="alert"))
-    scr.add_widget(Notif(name="arch"))
-    scr.add_widget(Sett(name="set"))
-
-
-
 
 '''
 ''' 
@@ -165,12 +165,12 @@ class Alert(Screen):
         but.bind(on_release=op)
         self.ids.eror.add_widget(but)
         self.ids.eror.add_widget(Err(text=" "))   
-
 '''
+
 class Wykres(FigureCanvasKivyAgg):
     def __init__(self, **kwargs):
         super(Wykres, self).__init__(plt.gcf(), **kwargs)
-'''
+
 try:
     #ule = [[x] for x in get_ule('001')]
     fig = plt.figure()
@@ -184,7 +184,7 @@ except Exception as e:
 class Comit(Popup):
     def send(self):
         push_alert(0,1,str(self.ids.alert.text))
-
+'''
 class Sett(Screen):
     @staticmethod
     def checkbox_click(value):
@@ -193,7 +193,7 @@ class Sett(Screen):
         else:
             Window.clearcolor = (255 / 255, 255 / 255, 235 / 255, 1)
     stts="Nieaktywne"
-global sm
+#global sm
 sm = ScreenManager()
 
 class MyApp(App):

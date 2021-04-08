@@ -1,0 +1,2 @@
+python -m PyInstaller --name touchtracer /Users/zuzgom/Desktop/EARP-PC/main.py
+python -m PyInstaller touchtracer.spec

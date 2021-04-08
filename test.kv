@@ -1,0 +1,435 @@
+#:kivy 1.0
+#:import idle nf.idle
+#:import reg nf.reg
+#:import Factory kivy.factory.Factory
+<ButImage@ButtonBehavior+AsyncImage>
+<CoButton@Button>
+    background_color: (60/255,60/255,60/255,0.5)
+
+
+<MenBut@Button>
+    color: 0,0,0,1
+    background_color: (60/255,60/255,60/255,0)
+    canvas.before:
+        Color:
+            rgba: .2, .2, .2, 1
+        Line:
+            width: 2
+            rectangle: self.x, self.y, self.width, self.height
+<Chud@Label>:
+    size_hint:1,1
+<CoLabel@Label>
+    canvas.before:
+        Color: 
+            rgba: (20/255,20/255,20/255,0.5)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+<BazaGrid@GridLayout>
+    cols: 4
+    #size_hint: 2,1
+    size_hint: 1,0.5 
+    #orientation: "horizontal"
+    canvas.before:
+        Color: 
+            rgba: (20/255,20/255,20/255,0.5)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    Image:
+        source: "image/ul.png"
+        #size_hint: 1, 0.25
+    Chud:
+        text: "Waga"
+    Chud:
+        text: "Temperatura"
+    Chud:
+        text: "Wilgotność" 
+
+
+<Menu>
+    FloatLayout:
+    
+        #size: 500, 400
+        #size_hint: 1, 1
+        BoxLayout:
+            canvas.before:
+                Color:
+                    rgba:(30/255,30/255,30/255,0.5) 
+                Rectangle:
+                    pos: 0, root.height-1.3*self.height
+                    size: root.width, 3*self.height
+            canvas:
+                Color:
+                    rgba: (.91,.75,.15,1)
+                Rectangle:
+                    pos: 0, root.height-1.2*self.height
+                    size: root.width, 2*self.height
+                    
+            
+            #padding: 60
+            spacing: self.width/100
+            orientation: "horizontal"
+            pos: 0, root.height - self.height - 10
+            #size: 500, 400 
+            size_hint_y: None
+            MenBut:
+                text: "Ule"                
+                on_press: root.now("ule")
+                size_hint_y: None
+            MenBut:
+                text: "Alerty"                
+                on_press: root.now('alert')                
+                size_hint_y: None
+                #height: '48dp'
+            MenBut:
+                text: "Archiwum"
+                on_press: root.now('arch')
+                #on_press: Notif.wyk()
+                size_hint_y: None
+                #height: '48dp'                 
+            ButImage:                
+                # take 50% size of the FloatLayout
+                size_hint: .5, None
+                # Make Button change it's opacity when pressed for visual indication
+                opacity: 1 if self.state == 'normal' else .2
+                source: 'image/dot.png'
+                on_press: root.now('set')
+                canvas.before:
+                    Color:
+                        rgba: .2, .2, .2, 1
+                    Line:
+                        width: 2
+                        rectangle: self.x, self.y, self.width, self.height
+                
+
+                
+
+        
+ 
+
+
+<Ule>
+    dat: dat.__self__
+    tem: tem.__self__
+    hum: hum.__self__
+    wei: wei.__self__
+    cialo: cialo.__self__
+    ScrollView:
+        size: 500, root.height
+        pos: root.width - self.width, root.height - self.height - 200
+        BoxLayout:                   
+            orientation: "vertical"
+            pos: root.width -self.width + 10, root.height - self.height - 50
+            size: root.width-20, root.height - 100
+            size_hint: None, None
+            spacing: 5
+            
+            BazaGrid:
+                Chud:
+                    id: dat
+                    text: root.data
+                Chud:
+                    id: wei
+                    text: root.waga 
+                Chud:
+                    id: tem
+                    text: root.temp 
+                Chud:
+                    id:hum
+                    text: root.humi 
+            ButImage:                
+                # take 50% size of the FloatLayout
+                size_hint: 1,.5 
+                # Make Button change it's opacity when pressed for visual indication
+                opacity: 1 if self.state == 'normal' else .2
+                source: 'image/refr.png'
+                on_press: root.up()
+                #size_hint: 1,0.25 
+            BoxLayout:
+                id: cialo                   
+                orientation: "vertical"              
+            
+    Menu:
+<Maly@Image>:
+    
+    source: "image/ul.png"
+    size_hint:None,.8
+    canvas.before:
+        Color: 
+            rgba: (20/255,20/255,20/255,0.5)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+<Err@Label>:
+    size_hint: 1,.8
+    text_size: self.width, None
+    #halign: 'middle'
+    canvas.before:
+        Color: 
+            rgba: (20/255,20/255,20/255,0.5)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+<Alert>
+    #eror: eror.__self__
+    Image:
+        source: "image/ul_sad.png"
+        pos: root.width - self.width, root.height - self.height
+        size: root.width, root.height - 10
+
+
+    ScrollView:
+        size: 500, 3*root.height
+        pos: root.width - self.width, .9*root.height - self.height
+        BoxLayout:
+        
+            orientation: "vertical"
+            pos: root.width -self.width + 10, .9*root.height - self.height
+            size: root.width-20, 2*root.height - 100
+            size_hint: None, None
+            spacing: 1
+            GridLayout:                      
+                cols: 2
+                size_hint: 1,.2
+                CoLabel:
+                    text: "Wszystkie ule są w porządku"
+                    text_size: self.width, None
+                    size_hint: 1,.5 
+                
+                CoButton:
+                    text: "Sprawdź"
+                    background_color: (60/255,60/255,60/255,0.5)
+                    on_press: idle()
+                    size_hint: 1,.5
+                CoLabel:
+                    text: "Poprzednie alerty:"
+                    size_hint:1,.5   
+                ButImage:
+                    # take 50% size of the FloatLayout
+                    size_hint: 1,.5 
+                    # Make Button change it's opacity when pressed for visual indication
+                    opacity: 1 if self.state == 'normal' else .2
+                    source: 'image/refr.png'
+                    on_press: root.up()
+                    pos: self.pos
+                    #size_hint: 1,0.25
+                
+            BoxLayout:
+                eror: eror.__self__
+                id: eror        
+                orientation: "vertical"
+                spacing: 1
+
+        
+    Menu:
+<Notif>
+    btn:btn.__self__
+    dropdown: dropdown.__self__
+    #wykres: wykres.__self__
+    BoxLayout:
+        orientation: "vertical"
+        pos: 0, root.height - 0.5*self.height
+        #pos: (root.width - self.width)/2, int(root.height/4)
+        #size: 400, 400
+        #size_hint: 1, 0.9
+        padding: 60
+        spacing: 10
+        on_parent: dropdown.dismiss()
+        DropDown:
+
+            id: dropdown
+            
+            on_select: btn.text = '{}'.format(args[1])
+
+            CoButton:
+                text: '1h'
+                size_hint_y: None
+                height: '48dp'
+                on_release: root.godzina(self.text)
+
+            CoButton:
+                text: '1d'
+                size_hint_y: None
+                height: '48dp'
+                on_release: root.dzien(self.text)
+            CoButton:
+                text: '1m'
+                size_hint_y: None
+                height: '48dp'
+                on_release: root.miesiac(self.text)
+            CoButton:
+                text: '1y'
+                size_hint_y: None
+                height: '48dp'
+                on_release: root.rok(self.text)
+    BoxLayout:
+
+        id: box
+        
+        orientation: "vertical"
+        pos: 0, 0
+        #pos: (root.width - self.width)/2, int(root.height/4)
+        #size: 400, 400
+        size_hint: 1, 0.9
+        padding: 60
+        spacing: 10
+        CoButton:
+            id: btn
+            text: 'Okres czasu'
+            on_release: dropdown.open(self)
+            size_hint_y: None
+            height: '48dp'
+        BoxLayout:
+            #id: wykres        
+            orientation: "vertical"
+            #Wykres:
+            #    id: clapl
+        Image:
+            source: "image/psz.png"
+            size_hint: 1, 0.5
+            
+    Menu:  
+
+<Witamy@Popup>:
+    auto_dismiss: False
+    title: "Pomoc już prawie możliwa"
+    BoxLayout:
+        orientation: 'vertical'
+        CoLabel:
+            text: 'Witamy w Elektronicznym Asystencie Rodziny Pszczelej!\nAby móc otrzymywać powiadomienia wymagane jest potwierdzenie subskrypcji kanału.\nTo jeden przycisk na stronie internetowej, zaraz pod historią Twoich powiadomień'
+            text_size: self.width, None   
+            font_size: '25sp'
+        Image:
+            source:'image/subs.png'     
+        BoxLayout:
+            size_hint: 1,.25
+            orientation: 'horizontal'
+            Button:
+                text: 'Zabierz mnie na stronę'
+                on_release: root.dismiss()
+                on_press: reg()
+            Button:
+                text: 'Zostawmy to na później'
+                on_release: root.dismiss()
+<Bye@Popup>:
+    auto_dismiss: False
+    title: "Instrukcja rezygnacji z powiadomień"
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            orientation: 'vertical'
+            CoLabel:
+                text: 'Zabierzemy cię teraz na kanał powiadomień'
+                text_size: self.width, None   
+                font_size: '25sp'
+            Image:
+                source:'image/unsub_1.png'
+            CoLabel:
+                text: 'Znajdź kłódkę obok adresu url i wyłącz powiadomienia'
+                text_size: self.width, None   
+                font_size: '25sp'
+            Image:
+                source:'image/unsub_2.png'
+        BoxLayout:
+            size_hint:1,.25
+            orientation: 'horizontal'
+            Button:
+                text: 'Jasne'
+                on_release: root.dismiss()
+                on_press: reg()
+            Button:
+                text: 'Potrzebuję pomocy'
+                on_release: root.dismiss()
+    
+<Comit@Popup>:
+    alert: alert.__self__
+    auto_dismiss: False
+    title: "Zgłaszanie błędów"
+    BoxLayout:
+        
+        orientation: 'vertical'
+        CoLabel:
+            text: 'To całkowicie anonimowy formularz zgłoszeniowy. Proszę po krótce opisać swój problem.\nW celu uzyskania konkretnej pomocy proszę o kontakt: \nzuzgom@gmail.com'
+            text_size: self.width, None   
+            font_size: '25sp'
+        TextInput:
+            id: alert   
+            text: "E: "  
+        BoxLayout:
+            size_hint: 1,.25
+            orientation: 'horizontal'
+            Button:
+                text: 'Wyślij'
+                on_release: root.dismiss()
+                on_press: root.send()
+            Button:
+                text: 'Anuluj'
+                on_release: root.dismiss()
+
+<Sett>:
+    BoxLayout:
+
+        spacing: 5
+        orientation: "vertical"
+        #size: root.width, root.height *0.9
+        pos: 0, 0
+        #pos: (root.width -self.width)/2, root.height - 2*self.height 
+        
+        size_hint: 1, 0.9
+        padding: 60
+        BoxLayout:
+            orientation: "horizontal"
+            CoLabel: 
+                text: "Tryb ciemny"
+                size_hint: 4,1
+            
+            CheckBox: 
+                on_active: root.checkbox_click(self.active) 
+                size_hint: 1,1
+                active: True
+                canvas.before:
+                    Color: 
+                        rgba: (20/255,20/255,20/255,0.5)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+        BoxLayout:
+            orientation: "horizontal"
+            CoLabel:
+                text:"Powiadomienia:"
+            CoButton:
+                text: "Zarejestruj"
+                on_release: Factory.Witamy().open()
+                
+            CoButton:
+                text: "Wyrejestruj"
+                on_release: Factory.Bye().open()
+                
+            
+                
+        BoxLayout:
+            orientation: "horizontal"
+            CoLabel:
+                text:"Status obecny powiadomień: "
+                size_hint: 2,1
+            CoLabel:
+                id: status
+                size_hint: 1,1
+                text: "Nieaktywne"
+        BoxLayout:
+            orientation: "horizontal"
+            CoButton:
+                text: "Zgłoś błąd | Otrzymaj pomoc"
+                size_hint: 2, 1
+                on_release: Factory.Comit().open()
+            Image:
+                source: "image/LOG.png"
+                size_hint: 1, 1
+
+    Menu:    
+
+
+    
+
+    
